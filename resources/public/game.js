@@ -22321,11 +22321,27 @@ goog.require("goog.Timer");
 goog.require("goog.dom");
 caves.game.sq_width = 30;
 caves.game.sq_height = 30;
-caves.game.shapes = cljs.core.ObjMap.fromObject(["\ufdd0'o", "\ufdd0'j", "\ufdd0'i", "\ufdd0'l", "\ufdd0's", "\ufdd0'z", "\ufdd0't"], {"\ufdd0'o":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_height, caves.game.sq_width], true), cljs.core.PersistentVector.fromArray([0, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 0], true)], true), "\ufdd0'j":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 
-2 * caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 2 * caves.game.sq_height], true)], true), "\ufdd0'i":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([0, 
-2 * caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([0, 3 * caves.game.sq_height], true)], true), "\ufdd0'l":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([0, 2 * caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 2 * caves.game.sq_height], true)], true), "\ufdd0's":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 
-caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([2 * caves.game.sq_width, 0], true)], true), "\ufdd0'z":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 
-caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([2 * caves.game.sq_width, caves.game.sq_height], true)], true), "\ufdd0't":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, 0], true), cljs.core.PersistentVector.fromArray([caves.game.sq_width, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([2 * caves.game.sq_width, 0], true)], true)});
+caves.game.grid_to_dimentions = function grid_to_dimentions(p__137006) {
+  var vec__137011__137012 = p__137006;
+  var nx__137013 = cljs.core.nth.call(null, vec__137011__137012, 0, null);
+  var ny__137014 = cljs.core.nth.call(null, vec__137011__137012, 1, null);
+  return cljs.core.PersistentVector.fromArray([caves.game.sq_width * nx__137013, caves.game.sq_height * ny__137014], true)
+};
+caves.game.rotations_to_dimentions = function rotations_to_dimentions(rotations) {
+  return cljs.core.map.call(null, caves.game.grid_to_dimentions, rotations)
+};
+caves.game.shapes = cljs.core.ObjMap.fromObject(["\ufdd0'o", "\ufdd0'j", "\ufdd0'i", "\ufdd0'l", "\ufdd0's", "\ufdd0'z", "\ufdd0't"], {"\ufdd0'o":cljs.core.map.call(null, caves.game.rotations_to_dimentions, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 0], true)], true)], true)), 
+"\ufdd0'j":cljs.core.map.call(null, caves.game.rotations_to_dimentions, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 2], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([1, 2], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true), 
+cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([2, 1], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([0, 2], true), cljs.core.PersistentVector.fromArray([1, 0], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([1, 0], 
+true), cljs.core.PersistentVector.fromArray([2, 0], true), cljs.core.PersistentVector.fromArray([2, 1], true)], true)], true)), "\ufdd0'i":cljs.core.map.call(null, caves.game.rotations_to_dimentions, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([0, 2], true), cljs.core.PersistentVector.fromArray([0, 3], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 
+0], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([2, 0], true), cljs.core.PersistentVector.fromArray([3, 0], true)], true)], true)), "\ufdd0'l":cljs.core.map.call(null, caves.game.rotations_to_dimentions, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([0, 2], true), cljs.core.PersistentVector.fromArray([1, 
+2], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([2, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([1, 
+2], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([2, 1], true), cljs.core.PersistentVector.fromArray([2, 0], true)], true)], true)), "\ufdd0's":cljs.core.map.call(null, caves.game.rotations_to_dimentions, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 
+0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([2, 0], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([1, 2], true)], true)], true)), "\ufdd0'z":cljs.core.map.call(null, caves.game.rotations_to_dimentions, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 
+0], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([2, 1], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([0, 2], true)], true)], true)), "\ufdd0't":cljs.core.map.call(null, caves.game.rotations_to_dimentions, 
+cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([2, 0], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([1, 
+2], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([2, 1], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([0, 2], true), cljs.core.PersistentVector.fromArray([1, 
+1], true)], true)], true))});
 caves.game.get_shape = function() {
   var get_shape = null;
   var get_shape__0 = function() {
@@ -22349,7 +22365,7 @@ caves.game.get_shape = function() {
 }();
 caves.game.make_shape = function() {
   var make_shape__delegate = function(origin, shape_name) {
-    return cljs.core.ObjMap.fromObject(["\ufdd0'origin", "\ufdd0'block-width", "\ufdd0'block-height", "\ufdd0'blocks"], {"\ufdd0'origin":origin, "\ufdd0'block-width":caves.game.sq_width, "\ufdd0'block-height":caves.game.sq_height, "\ufdd0'blocks":cljs.core.apply.call(null, caves.game.get_shape, shape_name)})
+    return cljs.core.ObjMap.fromObject(["\ufdd0'origin", "\ufdd0'block-width", "\ufdd0'block-height", "\ufdd0'rotation", "\ufdd0'blocks"], {"\ufdd0'origin":origin, "\ufdd0'block-width":caves.game.sq_width, "\ufdd0'block-height":caves.game.sq_height, "\ufdd0'rotation":0, "\ufdd0'blocks":cljs.core.apply.call(null, caves.game.get_shape, shape_name)})
   };
   var make_shape = function(origin, var_args) {
     var shape_name = null;
@@ -22359,9 +22375,9 @@ caves.game.make_shape = function() {
     return make_shape__delegate.call(this, origin, shape_name)
   };
   make_shape.cljs$lang$maxFixedArity = 1;
-  make_shape.cljs$lang$applyTo = function(arglist__58159) {
-    var origin = cljs.core.first(arglist__58159);
-    var shape_name = cljs.core.rest(arglist__58159);
+  make_shape.cljs$lang$applyTo = function(arglist__137015) {
+    var origin = cljs.core.first(arglist__137015);
+    var shape_name = cljs.core.rest(arglist__137015);
     return make_shape__delegate(origin, shape_name)
   };
   make_shape.cljs$lang$arity$variadic = make_shape__delegate;
@@ -22371,119 +22387,90 @@ caves.game.shift_down = function shift_down(shape) {
   return cljs.core.assoc.call(null, shape, "\ufdd0'origin", cljs.core.assoc.call(null, (new cljs.core.Keyword("\ufdd0'origin")).call(null, shape), "\ufdd0'y", caves.game.sq_height + (new cljs.core.Keyword("\ufdd0'y")).call(null, (new cljs.core.Keyword("\ufdd0'origin")).call(null, shape))))
 };
 caves.game.surface = function surface() {
-  var surface__58161 = goog.dom.getElement("surface");
-  return cljs.core.PersistentVector.fromArray([surface__58161.getContext("2d"), surface__58161.width, surface__58161.height], true)
+  var surface__137017 = goog.dom.getElement("surface");
+  return cljs.core.PersistentVector.fromArray([surface__137017.getContext("2d"), surface__137017.width, surface__137017.height], true)
 };
-caves.game.fill_rect = function fill_rect(p__58162, p__58163, p__58164) {
-  var vec__58179__58182 = p__58162;
-  var surface__58183 = cljs.core.nth.call(null, vec__58179__58182, 0, null);
-  var vec__58180__58184 = p__58163;
-  var x__58185 = cljs.core.nth.call(null, vec__58180__58184, 0, null);
-  var y__58186 = cljs.core.nth.call(null, vec__58180__58184, 1, null);
-  var width__58187 = cljs.core.nth.call(null, vec__58180__58184, 2, null);
-  var height__58188 = cljs.core.nth.call(null, vec__58180__58184, 3, null);
-  var vec__58181__58189 = p__58164;
-  var r__58190 = cljs.core.nth.call(null, vec__58181__58189, 0, null);
-  var g__58191 = cljs.core.nth.call(null, vec__58181__58189, 1, null);
-  var b__58192 = cljs.core.nth.call(null, vec__58181__58189, 2, null);
-  surface__58183.fillStyle = [cljs.core.str("rgb("), cljs.core.str(r__58190), cljs.core.str(","), cljs.core.str(g__58191), cljs.core.str(","), cljs.core.str(b__58192), cljs.core.str(")")].join("");
-  return surface__58183.fillRect(x__58185, y__58186, width__58187, height__58188)
+caves.game.fill_rect = function fill_rect(p__137018, p__137019, p__137020) {
+  var vec__137035__137038 = p__137018;
+  var surface__137039 = cljs.core.nth.call(null, vec__137035__137038, 0, null);
+  var vec__137036__137040 = p__137019;
+  var x__137041 = cljs.core.nth.call(null, vec__137036__137040, 0, null);
+  var y__137042 = cljs.core.nth.call(null, vec__137036__137040, 1, null);
+  var width__137043 = cljs.core.nth.call(null, vec__137036__137040, 2, null);
+  var height__137044 = cljs.core.nth.call(null, vec__137036__137040, 3, null);
+  var vec__137037__137045 = p__137020;
+  var r__137046 = cljs.core.nth.call(null, vec__137037__137045, 0, null);
+  var g__137047 = cljs.core.nth.call(null, vec__137037__137045, 1, null);
+  var b__137048 = cljs.core.nth.call(null, vec__137037__137045, 2, null);
+  surface__137039.fillStyle = [cljs.core.str("rgb("), cljs.core.str(r__137046), cljs.core.str(","), cljs.core.str(g__137047), cljs.core.str(","), cljs.core.str(b__137048), cljs.core.str(")")].join("");
+  return surface__137039.fillRect(x__137041, y__137042, width__137043, height__137044)
 };
-caves.game.stroke_rect = function stroke_rect(p__58193, p__58194, line_width, p__58195) {
-  var vec__58210__58213 = p__58193;
-  var surface__58214 = cljs.core.nth.call(null, vec__58210__58213, 0, null);
-  var vec__58211__58215 = p__58194;
-  var x__58216 = cljs.core.nth.call(null, vec__58211__58215, 0, null);
-  var y__58217 = cljs.core.nth.call(null, vec__58211__58215, 1, null);
-  var width__58218 = cljs.core.nth.call(null, vec__58211__58215, 2, null);
-  var height__58219 = cljs.core.nth.call(null, vec__58211__58215, 3, null);
-  var vec__58212__58220 = p__58195;
-  var r__58221 = cljs.core.nth.call(null, vec__58212__58220, 0, null);
-  var g__58222 = cljs.core.nth.call(null, vec__58212__58220, 1, null);
-  var b__58223 = cljs.core.nth.call(null, vec__58212__58220, 2, null);
-  surface__58214.strokeStyle = [cljs.core.str("rgb("), cljs.core.str(r__58221), cljs.core.str(","), cljs.core.str(g__58222), cljs.core.str(","), cljs.core.str(b__58223), cljs.core.str(")")].join("");
-  surface__58214.lineWidth = line_width;
-  return surface__58214.strokeRect(x__58216, y__58217, width__58218, height__58219)
+caves.game.stroke_rect = function stroke_rect(p__137049, p__137050, line_width, p__137051) {
+  var vec__137066__137069 = p__137049;
+  var surface__137070 = cljs.core.nth.call(null, vec__137066__137069, 0, null);
+  var vec__137067__137071 = p__137050;
+  var x__137072 = cljs.core.nth.call(null, vec__137067__137071, 0, null);
+  var y__137073 = cljs.core.nth.call(null, vec__137067__137071, 1, null);
+  var width__137074 = cljs.core.nth.call(null, vec__137067__137071, 2, null);
+  var height__137075 = cljs.core.nth.call(null, vec__137067__137071, 3, null);
+  var vec__137068__137076 = p__137051;
+  var r__137077 = cljs.core.nth.call(null, vec__137068__137076, 0, null);
+  var g__137078 = cljs.core.nth.call(null, vec__137068__137076, 1, null);
+  var b__137079 = cljs.core.nth.call(null, vec__137068__137076, 2, null);
+  surface__137070.strokeStyle = [cljs.core.str("rgb("), cljs.core.str(r__137077), cljs.core.str(","), cljs.core.str(g__137078), cljs.core.str(","), cljs.core.str(b__137079), cljs.core.str(")")].join("");
+  surface__137070.lineWidth = line_width;
+  return surface__137070.strokeRect(x__137072, y__137073, width__137074, height__137075)
 };
-caves.game.fill_circle = function fill_circle(p__58224, coords, p__58225) {
-  var vec__58239__58241 = p__58224;
-  var surface__58242 = cljs.core.nth.call(null, vec__58239__58241, 0, null);
-  var vec__58240__58243 = p__58225;
-  var r__58244 = cljs.core.nth.call(null, vec__58240__58243, 0, null);
-  var g__58245 = cljs.core.nth.call(null, vec__58240__58243, 1, null);
-  var b__58246 = cljs.core.nth.call(null, vec__58240__58243, 2, null);
-  var vec__58247__58248 = coords;
-  var x__58249 = cljs.core.nth.call(null, vec__58247__58248, 0, null);
-  var y__58250 = cljs.core.nth.call(null, vec__58247__58248, 1, null);
-  var d__58251 = cljs.core.nth.call(null, vec__58247__58248, 2, null);
-  surface__58242.fillStyle = [cljs.core.str("rgb("), cljs.core.str(r__58244), cljs.core.str(","), cljs.core.str(g__58245), cljs.core.str(","), cljs.core.str(b__58246), cljs.core.str(")")].join("");
-  surface__58242.beginPath();
-  surface__58242.arc(x__58249, y__58250, d__58251, 0, 2 * Math.PI, true);
-  surface__58242.closePath();
-  return surface__58242.fill()
+caves.game.fill_circle = function fill_circle(p__137080, coords, p__137081) {
+  var vec__137095__137097 = p__137080;
+  var surface__137098 = cljs.core.nth.call(null, vec__137095__137097, 0, null);
+  var vec__137096__137099 = p__137081;
+  var r__137100 = cljs.core.nth.call(null, vec__137096__137099, 0, null);
+  var g__137101 = cljs.core.nth.call(null, vec__137096__137099, 1, null);
+  var b__137102 = cljs.core.nth.call(null, vec__137096__137099, 2, null);
+  var vec__137103__137104 = coords;
+  var x__137105 = cljs.core.nth.call(null, vec__137103__137104, 0, null);
+  var y__137106 = cljs.core.nth.call(null, vec__137103__137104, 1, null);
+  var d__137107 = cljs.core.nth.call(null, vec__137103__137104, 2, null);
+  surface__137098.fillStyle = [cljs.core.str("rgb("), cljs.core.str(r__137100), cljs.core.str(","), cljs.core.str(g__137101), cljs.core.str(","), cljs.core.str(b__137102), cljs.core.str(")")].join("");
+  surface__137098.beginPath();
+  surface__137098.arc(x__137105, y__137106, d__137107, 0, 2 * Math.PI, true);
+  surface__137098.closePath();
+  return surface__137098.fill()
 };
-caves.game.update_canvas = function update_canvas(world, surface) {
-  var falling_shapes__58301 = (new cljs.core.Keyword("\ufdd0'falling")).call(null, world);
-  var vec__58300__58302 = surface;
-  var ___58303 = cljs.core.nth.call(null, vec__58300__58302, 0, null);
-  var width__58304 = cljs.core.nth.call(null, vec__58300__58302, 1, null);
-  var height__58305 = cljs.core.nth.call(null, vec__58300__58302, 2, null);
-  caves.game.fill_rect.call(null, surface, cljs.core.PersistentVector.fromArray([0, 0, width__58304, height__58305], true), cljs.core.PersistentVector.fromArray([10, 10, 10], true));
-  caves.game.stroke_rect.call(null, surface, cljs.core.PersistentVector.fromArray([0, 0, width__58304, height__58305], true), 2, cljs.core.PersistentVector.fromArray([0, 0, 0], true));
-  var G__58306__58307 = cljs.core.seq.call(null, falling_shapes__58301);
-  if(G__58306__58307) {
-    var G__58309__58311 = cljs.core.first.call(null, G__58306__58307);
-    var map__58310__58312 = G__58309__58311;
-    var map__58310__58313 = cljs.core.seq_QMARK_.call(null, map__58310__58312) ? cljs.core.apply.call(null, cljs.core.hash_map, map__58310__58312) : map__58310__58312;
-    var blocks__58314 = cljs.core._lookup.call(null, map__58310__58313, "\ufdd0'blocks", null);
-    var origin__58315 = cljs.core._lookup.call(null, map__58310__58313, "\ufdd0'origin", null);
-    var G__58306__58316 = G__58306__58307;
-    var G__58309__58317 = G__58309__58311;
-    var G__58306__58318 = G__58306__58316;
+caves.game.draw_piece = function draw_piece(surface, piece) {
+  var map__137136__137137 = piece;
+  var map__137136__137138 = cljs.core.seq_QMARK_.call(null, map__137136__137137) ? cljs.core.apply.call(null, cljs.core.hash_map, map__137136__137137) : map__137136__137137;
+  var rotation__137139 = cljs.core._lookup.call(null, map__137136__137138, "\ufdd0'rotation", null);
+  var blocks__137140 = cljs.core._lookup.call(null, map__137136__137138, "\ufdd0'blocks", null);
+  var origin__137141 = cljs.core._lookup.call(null, map__137136__137138, "\ufdd0'origin", null);
+  var blocks__137142 = cljs.core.nth.call(null, blocks__137140, rotation__137139);
+  console.log(cljs.core.format.call(null, "rotation: %s blocks: %s", rotation__137139, blocks__137142));
+  var G__137143__137144 = cljs.core.seq.call(null, blocks__137142);
+  if(G__137143__137144) {
+    var G__137146__137148 = cljs.core.first.call(null, G__137143__137144);
+    var vec__137147__137149 = G__137146__137148;
+    var incx__137150 = cljs.core.nth.call(null, vec__137147__137149, 0, null);
+    var incy__137151 = cljs.core.nth.call(null, vec__137147__137149, 1, null);
+    var G__137143__137152 = G__137143__137144;
+    var G__137146__137153 = G__137146__137148;
+    var G__137143__137154 = G__137143__137152;
     while(true) {
-      var map__58319__58320 = G__58309__58317;
-      var map__58319__58321 = cljs.core.seq_QMARK_.call(null, map__58319__58320) ? cljs.core.apply.call(null, cljs.core.hash_map, map__58319__58320) : map__58319__58320;
-      var blocks__58322 = cljs.core._lookup.call(null, map__58319__58321, "\ufdd0'blocks", null);
-      var origin__58323 = cljs.core._lookup.call(null, map__58319__58321, "\ufdd0'origin", null);
-      var G__58306__58324 = G__58306__58318;
-      var G__58325__58326 = cljs.core.seq.call(null, blocks__58322);
-      if(G__58325__58326) {
-        var G__58328__58330 = cljs.core.first.call(null, G__58325__58326);
-        var vec__58329__58331 = G__58328__58330;
-        var incx__58332 = cljs.core.nth.call(null, vec__58329__58331, 0, null);
-        var incy__58333 = cljs.core.nth.call(null, vec__58329__58331, 1, null);
-        var G__58325__58334 = G__58325__58326;
-        var G__58328__58335 = G__58328__58330;
-        var G__58325__58336 = G__58325__58334;
-        while(true) {
-          var vec__58337__58338 = G__58328__58335;
-          var incx__58339 = cljs.core.nth.call(null, vec__58337__58338, 0, null);
-          var incy__58340 = cljs.core.nth.call(null, vec__58337__58338, 1, null);
-          var G__58325__58341 = G__58325__58336;
-          var x__58342 = incx__58339 + (new cljs.core.Keyword("\ufdd0'x")).call(null, origin__58323);
-          var y__58343 = incy__58340 + (new cljs.core.Keyword("\ufdd0'y")).call(null, origin__58323);
-          caves.game.fill_rect.call(null, surface, cljs.core.PersistentVector.fromArray([x__58342, y__58343, caves.game.sq_width, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([60, 80, 160], true));
-          var temp__3974__auto____58344 = cljs.core.next.call(null, G__58325__58341);
-          if(temp__3974__auto____58344) {
-            var G__58325__58345 = temp__3974__auto____58344;
-            var G__58348 = cljs.core.first.call(null, G__58325__58345);
-            var G__58349 = G__58325__58345;
-            G__58328__58335 = G__58348;
-            G__58325__58336 = G__58349;
-            continue
-          }else {
-          }
-          break
-        }
-      }else {
-      }
-      var temp__3974__auto____58346 = cljs.core.next.call(null, G__58306__58324);
-      if(temp__3974__auto____58346) {
-        var G__58306__58347 = temp__3974__auto____58346;
-        var G__58350 = cljs.core.first.call(null, G__58306__58347);
-        var G__58351 = G__58306__58347;
-        G__58309__58317 = G__58350;
-        G__58306__58318 = G__58351;
+      var vec__137155__137156 = G__137146__137153;
+      var incx__137157 = cljs.core.nth.call(null, vec__137155__137156, 0, null);
+      var incy__137158 = cljs.core.nth.call(null, vec__137155__137156, 1, null);
+      var G__137143__137159 = G__137143__137154;
+      var x__137160 = incx__137157 + (new cljs.core.Keyword("\ufdd0'x")).call(null, origin__137141);
+      var y__137161 = incy__137158 + (new cljs.core.Keyword("\ufdd0'y")).call(null, origin__137141);
+      caves.game.fill_rect.call(null, surface, cljs.core.PersistentVector.fromArray([x__137160, y__137161, caves.game.sq_width, caves.game.sq_height], true), cljs.core.PersistentVector.fromArray([60, 80, 160], true));
+      caves.game.stroke_rect.call(null, surface, cljs.core.PersistentVector.fromArray([x__137160, y__137161, caves.game.sq_width, caves.game.sq_height], true), 2, cljs.core.PersistentVector.fromArray([0, 0, 0], true));
+      var temp__3974__auto____137162 = cljs.core.next.call(null, G__137143__137159);
+      if(temp__3974__auto____137162) {
+        var G__137143__137163 = temp__3974__auto____137162;
+        var G__137164 = cljs.core.first.call(null, G__137143__137163);
+        var G__137165 = G__137143__137163;
+        G__137146__137153 = G__137164;
+        G__137143__137154 = G__137165;
         continue
       }else {
         return null
@@ -22494,21 +22481,60 @@ caves.game.update_canvas = function update_canvas(world, surface) {
     return null
   }
 };
-caves.game.move_pieces_down = function move_pieces_down(state, p__58352) {
-  var vec__58362__58363 = p__58352;
-  var ___58364 = cljs.core.nth.call(null, vec__58362__58363, 0, null);
-  var width__58365 = cljs.core.nth.call(null, vec__58362__58363, 1, null);
-  var height__58366 = cljs.core.nth.call(null, vec__58362__58363, 2, null);
-  var map__58367__58368 = state;
-  var map__58367__58369 = cljs.core.seq_QMARK_.call(null, map__58367__58368) ? cljs.core.apply.call(null, cljs.core.hash_map, map__58367__58368) : map__58367__58368;
-  var falling__58370 = cljs.core._lookup.call(null, map__58367__58369, "\ufdd0'falling", null);
-  return cljs.core.assoc.call(null, state, "\ufdd0'falling", cljs.core.map.call(null, caves.game.shift_down, falling__58370))
+caves.game.update_canvas = function update_canvas(world, surface) {
+  var falling_shapes__137180 = (new cljs.core.Keyword("\ufdd0'falling")).call(null, world);
+  var vec__137179__137181 = surface;
+  var ___137182 = cljs.core.nth.call(null, vec__137179__137181, 0, null);
+  var width__137183 = cljs.core.nth.call(null, vec__137179__137181, 1, null);
+  var height__137184 = cljs.core.nth.call(null, vec__137179__137181, 2, null);
+  caves.game.fill_rect.call(null, surface, cljs.core.PersistentVector.fromArray([0, 0, width__137183, height__137184], true), cljs.core.PersistentVector.fromArray([10, 10, 10], true));
+  caves.game.stroke_rect.call(null, surface, cljs.core.PersistentVector.fromArray([0, 0, width__137183, height__137184], true), 2, cljs.core.PersistentVector.fromArray([0, 0, 0], true));
+  var G__137185__137186 = cljs.core.seq.call(null, falling_shapes__137180);
+  if(G__137185__137186) {
+    var piece__137187 = cljs.core.first.call(null, G__137185__137186);
+    var G__137185__137188 = G__137185__137186;
+    while(true) {
+      caves.game.draw_piece.call(null, surface, piece__137187);
+      var temp__3974__auto____137189 = cljs.core.next.call(null, G__137185__137188);
+      if(temp__3974__auto____137189) {
+        var G__137185__137190 = temp__3974__auto____137189;
+        var G__137191 = cljs.core.first.call(null, G__137185__137190);
+        var G__137192 = G__137185__137190;
+        piece__137187 = G__137191;
+        G__137185__137188 = G__137192;
+        continue
+      }else {
+        return null
+      }
+      break
+    }
+  }else {
+    return null
+  }
+};
+caves.game.rotate_piece = function rotate_piece(piece) {
+  return cljs.core.update_in.call(null, piece, cljs.core.PersistentVector.fromArray(["\ufdd0'rotation"], true), function(p1__137166_SHARP_) {
+    return(p1__137166_SHARP_ + 1) % cljs.core.count.call(null, (new cljs.core.Keyword("\ufdd0'blocks")).call(null, piece))
+  })
+};
+caves.game.rotate_pieces = function rotate_pieces(pieces) {
+  return cljs.core.map.call(null, caves.game.rotate_piece, pieces)
+};
+caves.game.move_pieces_down = function move_pieces_down(state, p__137193) {
+  var vec__137203__137204 = p__137193;
+  var ___137205 = cljs.core.nth.call(null, vec__137203__137204, 0, null);
+  var width__137206 = cljs.core.nth.call(null, vec__137203__137204, 1, null);
+  var height__137207 = cljs.core.nth.call(null, vec__137203__137204, 2, null);
+  var map__137208__137209 = state;
+  var map__137208__137210 = cljs.core.seq_QMARK_.call(null, map__137208__137209) ? cljs.core.apply.call(null, cljs.core.hash_map, map__137208__137209) : map__137208__137209;
+  var falling__137211 = cljs.core._lookup.call(null, map__137208__137210, "\ufdd0'falling", null);
+  return cljs.core.assoc.call(null, state, "\ufdd0'falling", cljs.core.map.call(null, caves.game.shift_down, falling__137211))
 };
 caves.game.game = function game(timer, state, surface) {
-  var vec__58376__58377 = surface;
-  var ___58378 = cljs.core.nth.call(null, vec__58376__58377, 0, null);
-  var width__58379 = cljs.core.nth.call(null, vec__58376__58377, 1, null);
-  var height__58380 = cljs.core.nth.call(null, vec__58376__58377, 2, null);
+  var vec__137217__137218 = surface;
+  var ___137219 = cljs.core.nth.call(null, vec__137217__137218, 0, null);
+  var width__137220 = cljs.core.nth.call(null, vec__137217__137218, 1, null);
+  var height__137221 = cljs.core.nth.call(null, vec__137217__137218, 2, null);
   return cljs.core.swap_BANG_.call(null, state, function(curr) {
     caves.game.update_canvas.call(null, curr, surface);
     return caves.game.move_pieces_down.call(null, curr, surface)
@@ -22518,19 +22544,27 @@ caves.game.click = function click(timer, state, surface, event) {
   if(cljs.core.not.call(null, timer.enabled)) {
     return timer.start()
   }else {
-    return null
+    return timer.stop()
   }
 };
+caves.game.keypress = function keypress(state) {
+  return cljs.core.swap_BANG_.call(null, state, function(curr) {
+    return cljs.core.update_in.call(null, curr, cljs.core.PersistentVector.fromArray(["\ufdd0'falling"], true), caves.game.rotate_pieces)
+  })
+};
 caves.game.main = function main() {
-  var surface__58385 = caves.game.surface.call(null);
-  var timer__58386 = new goog.Timer(500);
-  var state__58387 = cljs.core.atom.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'falling"], {"\ufdd0'falling":cljs.core.PersistentVector.fromArray([caves.game.make_shape.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":30, "\ufdd0'y":0}))], true)}));
-  caves.game.update_canvas.call(null, cljs.core.deref.call(null, state__58387), surface__58385);
-  goog.events.listen(timer__58386, goog.Timer.TICK, function() {
-    return caves.game.game.call(null, timer__58386, state__58387, surface__58385)
+  var surface__137226 = caves.game.surface.call(null);
+  var timer__137227 = new goog.Timer(500);
+  var state__137228 = cljs.core.atom.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'falling"], {"\ufdd0'falling":cljs.core.PersistentVector.fromArray([caves.game.make_shape.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":30, "\ufdd0'y":0}))], true)}));
+  caves.game.update_canvas.call(null, cljs.core.deref.call(null, state__137228), surface__137226);
+  goog.events.listen(timer__137227, goog.Timer.TICK, function() {
+    return caves.game.game.call(null, timer__137227, state__137228, surface__137226)
   });
-  return goog.events.listen(window, goog.events.EventType.CLICK, function(p1__58381_SHARP_) {
-    return caves.game.click.call(null, timer__58386, state__58387, surface__58385, p1__58381_SHARP_)
+  goog.events.listen(window, goog.events.EventType.KEYPRESS, function() {
+    return caves.game.keypress.call(null, state__137228)
+  });
+  return goog.events.listen(window, goog.events.EventType.CLICK, function(p1__137222_SHARP_) {
+    return caves.game.click.call(null, timer__137227, state__137228, surface__137226, p1__137222_SHARP_)
   })
 };
 goog.exportSymbol("caves.game.main", caves.game.main);
