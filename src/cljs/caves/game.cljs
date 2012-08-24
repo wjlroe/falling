@@ -83,16 +83,19 @@
      (. surface -width)
      (. surface -height)]))
 
-(defn fill-rect [[surface] [x y width height] [r g b]]
+(defn fill-rect
+  [[surface] [x y width height] [r g b]]
   (set! (. surface -fillStyle) (str "rgb(" r "," g "," b ")"))
   (.fillRect surface x y width height))
 
-(defn stroke-rect [[surface] [x y width height] line-width [r g b]]
+(defn stroke-rect
+  [[surface] [x y width height] line-width [r g b]]
   (set! (. surface -strokeStyle) (str "rgb(" r "," g "," b ")"))
   (set! (. surface -lineWidth) line-width)
   (.strokeRect surface x y width height))
 
-(defn fill-circle [[surface] coords [r g b]]
+(defn fill-circle
+  [[surface] coords [r g b]]
   (let [[x y d] coords]
     (set! (. surface -fillStyle) (str "rgb(" r "," g "," b ")"))
     (. surface (beginPath))
@@ -150,7 +153,8 @@
                        ;; More shit
                        )))))
 
-(defn click [timer state surface event]
+(defn click
+  [timer state surface event]
   (if (not (.-enabled timer))
     (. timer (start))
     (. timer (stop))))
