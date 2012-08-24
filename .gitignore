@@ -10,3 +10,4 @@
 /.lein-cljs*
 /target
 /resources/public/game.js
+/_deploy
