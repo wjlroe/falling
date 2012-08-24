@@ -2,7 +2,8 @@
   (:require [goog.dom :as dom]
             [goog.Timer :as timer]
             [goog.events :as events]
-            [goog.events.EventType :as event-type]))
+            [goog.events.EventType :as event-type]
+            [goog.events.KeyCodes :as key-codes]))
 
 (def sq-width 30)
 (def sq-height 30)
@@ -103,7 +104,6 @@
   [surface piece]
   (let [{:keys [origin blocks rotation]} piece]
     (let [blocks (nth blocks rotation)]
-      (.log js/console (format "rotation: %s blocks: %s" rotation blocks))
       (doseq [[incx incy] blocks]
         (let [x (+ incx (:x origin))
               y (+ incy (:y origin))]
@@ -127,6 +127,14 @@
   [pieces]
   (map rotate-piece pieces))
 
+(defn shift-piece
+  [shift piece]
+  (update-in piece [:origin :x] #(shift % sq-width)))
+
+(defn shift-pieces
+  [shift pieces]
+  (map (partial shift-piece shift) pieces))
+
 (defn move-pieces-down
   [state [_ width height]]
   (let [{:keys [falling]} state]
@@ -147,10 +155,33 @@
     (. timer (start))
     (. timer (stop))))
 
-(defn keypress
+(defn rotate-falling-pieces
   [state]
   (swap! state (fn [curr]
                  (update-in curr [:falling] rotate-pieces))))
+
+(defn shift-falling-left
+  [state]
+  (swap! state (fn [curr]
+                 (update-in curr [:falling] (partial shift-pieces -)))))
+
+(defn shift-falling-right
+  [state]
+  (swap! state (fn [curr]
+                 (update-in curr [:falling] (partial shift-pieces +)))))
+
+(defn keypress
+  [state e]
+  (let [browser-event (.getBrowserEvent e)]
+   (do
+     (.log js/console "event:" e)
+     (.log js/console "br event:" browser-event)
+     (cond (= (.-charCode browser-event) 97) ;; character 'a', lower case
+           (shift-falling-left state)
+           (= (.-charCode browser-event) 100) ;; character 'd', lower
+           (shift-falling-right state)
+           true
+           (rotate-falling-pieces state)))))
 
 (defn ^:export main
   []
@@ -158,6 +189,8 @@
         timer (goog.Timer. 500)
         state (atom {:falling [(make-shape {:x 30 :y 0})]})]
     (update-canvas @state surface)
+    (. timer (start))
     (events/listen timer goog.Timer/TICK #(game timer state surface))
-    (events/listen js/window event-type/KEYPRESS #(keypress state))
+    (events/listen js/window event-type/KEYPRESS #(keypress state %))
+    (events/listen js/window event-type/TOUCHSTART #(keypress state %))
     (events/listen js/window event-type/CLICK #(click timer state surface %))))
