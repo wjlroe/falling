@@ -70,6 +70,59 @@
    :blocks
    (apply get-shape shape-name)})
 
+(defn new-falling-shape
+  [width]
+  (make-shape {:x (int (/ width 2)) :y 0}))
+
+(defn piece-bottom
+  [shape]
+  (let [{:keys [origin block-height rotation blocks]} shape
+        blocks (nth blocks rotation)
+        max-y (apply max (map second blocks))]
+    (.log js/console "max-y:" max-y "y origin:" (:y origin))
+    (+ (:y origin) max-y block-height)))
+
+;;; Refactor the shit out of this...soon!!!!
+
+(defn shape-lowest-points
+  [shape]
+  (let [{:keys [origin block-height rotation blocks]} shape
+        blocks (nth blocks rotation)
+        ;; partition into identical x-values
+        columns (group-by #(+ (:x origin) (first %)) blocks)
+        max-y-values (map (fn [x coords]
+                            [x (apply max (map #(+ (:y origin)
+                                                   block-height
+                                                   (second %))
+                                               coords))])
+                          columns)]
+    max-y-values))
+
+(defn shape-highest-points
+  [shape]
+  (let [{:keys [origin block-height rotation blocks]} shape
+        blocks (nth blocks rotation)
+        columns (group-by #(+ (:x origin) (first %)) blocks)
+        min-y-values (map (fn [x coords]
+                            [x (apply min (map #(+ (:y origin)
+                                                   (second %))
+                                               coords))])
+                          columns)]
+    min-y-values))
+
+(defn shapes-highest-points
+  [shapes]
+  (map shape-highest-points shapes))
+
+(defn shapes-highest-points-by-x
+  [shapes]
+  (let [by-x (group-by first (shapes-highest-points shapes))
+        min-y-points (map (fn [x coords]
+                            [x (apply min (map second coords))])
+                          by-x)]
+    ;; Turn the [[0 1] [1 4]] array into {0 1 1 4} for easy lookup
+    (into {} min-y-points)))
+
 (defn shift-down
   [shape]
   (assoc shape :origin (assoc (:origin shape) :y
@@ -116,10 +169,13 @@
 (defn update-canvas
   [world surface]
   (let [falling-shapes (:falling world)
+        fallen-shapes (:fallen world)
         [_ width height] surface]
     (fill-rect surface [0 0 width height] [10 10 10])
     (stroke-rect surface [0 0 width height] 2 [0 0 0])
     (doseq [piece falling-shapes]
+      (draw-piece surface piece))
+    (doseq [piece fallen-shapes]
       (draw-piece surface piece))))
 
 (defn rotate-piece
@@ -138,10 +194,44 @@
   [shift pieces]
   (map (partial shift-piece shift) pieces))
 
+(defn fallen-piece?
+  [total-height piece]
+  (= total-height (piece-bottom piece)))
+
+(defn collision?
+  [fallen piece]
+  (let [bottom-points (shape-lowest-points piece)
+        fallen-top-points (shapes-highest-points-by-x fallen)
+        collision (some true?
+                        (for [[x y] bottom-points]
+                          (= y (x fallen-top-points))))]
+    (.log js/console "collision:" collision "bottom-points:" (pr-str bottom-points) "fallen-top-points:" (pr-str fallen-top-points))
+    collision))
+
+(defn hit-something?
+  [total-height fallen piece]
+  (if (or (fallen-piece? total-height piece)
+          (collision? fallen piece))
+    :fallen
+    :falling))
+
 (defn move-pieces-down
   [state [_ width height]]
-  (let [{:keys [falling]} state]
-    (assoc state :falling (map shift-down falling))))
+  (let [{:keys [falling fallen]} state
+        ;; Group by whether the piece has hit something or not:
+        ;; {true, [piece, ..], false, [piece,..]}
+        hit-or-not (group-by (partial hit-something? height fallen) falling)
+        fallen (concat fallen
+                       (:fallen hit-or-not))
+        falling (:falling hit-or-not)
+        ]
+    (do
+      (.log js/console "hit-or-not:" hit-or-not "fallen:" fallen "falling:" falling "height:" height)
+      (assoc state
+        :falling (if (not-empty falling)
+                   (map shift-down falling)
+                   [(new-falling-shape width)])
+        :fallen (or fallen [])))))
 
 (defn game
   [timer state surface]
@@ -190,8 +280,9 @@
 (defn ^:export main
   []
   (let [surface (surface)
+        [_ width _] surface
         timer (goog.Timer. 500)
-        state (atom {:falling [(make-shape {:x 30 :y 0})]})]
+        state (atom {:falling [(new-falling-shape width)]})]
     (update-canvas @state surface)
     (. timer (start))
     (events/listen timer goog.Timer/TICK #(game timer state surface))
